@@ -4,5 +4,5 @@ Full stack web application built in https://fullstackopen.com concluding chapter
 # Front end live on GitHub Pages:
 https://vanhanenjla.github.io/React-Blogs/
 
-#Back end live on Heroku:
+# Back end live on Heroku:
 https://react-blogs-server.herokuapp.com/
