@@ -1,6 +1,6 @@
 import blogService from "../services/blog";
 
-const reducer = (state = null, action) => {
+export const reducer = (state = null, action) => {
   switch (action.type) {
 
     case 'INITIALIZE_BLOGS':
@@ -16,7 +16,7 @@ const reducer = (state = null, action) => {
     case 'LIKE':
       const likedBlog = action.data
       return state.map(blog => blog.id === likedBlog.id ? likedBlog : blog)
-
+ 
     case 'COMMENT':
       const commentedBlog = action.data
       return state.map(blog => blog.id === commentedBlog.id ? commentedBlog : blog)

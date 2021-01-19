@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import authService from './services/auth'
+import authService from '../services/auth'
 import { useSelector, useDispatch } from 'react-redux'
-import { show } from './reducers/notification'
-import blogsReducer from './reducers/blogs'
-import userReducer from './reducers/user'
-import usersReducer from './reducers/users'
+import notificationReducer from '../reducers/notification'
+import blogsReducer from '../reducers/blogs'
+import userReducer from '../reducers/user'
+import usersReducer from '../reducers/users'
+import { logo192, logo512, PUBLIC_URL } from '../constants'
+import './App.css'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -38,7 +41,7 @@ export const App = () => {
 
   return (
 
-    <Router>
+    <Router basename={PUBLIC_URL}>
 
       <Navbar></Navbar>
       <Header></Header>
@@ -102,9 +105,9 @@ export const Login = () => {
       setDidTryLogin(true)
       const user = await authService.login(credentials)
       dispatch(userReducer.login(user))
-      dispatch(show({ message: `${user.name} logged in.`, style: 'success' }))
+      dispatch(notificationReducer.show({ message: `${user.name} logged in.`, style: 'success' }))
     } catch (error) {
-      dispatch(show({ message: `${error.response.data.message}`, style: 'error' }))
+      dispatch(notificationReducer.show({ message: `${error.response.data.message}`, style: 'error' }))
     }
   }
 
@@ -116,7 +119,7 @@ export const Login = () => {
     <>
       <form onSubmit={e => { e.preventDefault(); login(credentials) }} className={`form-signin needs-validation ${didTryLogin ? 'was-validated' : ''}`} id="login-form" noValidate>
 
-        <img className="img-fluid" src="./logo512.png" alt=""></img>
+        <img className="img-fluid" src={logo512} alt="Logo"></img>
 
         <div className="form-group">
           <h2>React Blogs</h2>
@@ -132,7 +135,7 @@ export const Login = () => {
             autoFocus />
           <div className="invalid-feedback">
             Please enter a username.
-      </div>
+          </div>
         </div>
 
         <div className="form-group">
@@ -144,7 +147,7 @@ export const Login = () => {
             required />
           <div className="invalid-feedback">
             Please enter a password.
-      </div>
+          </div>
         </div>
 
         <div className="form-group">
@@ -158,30 +161,50 @@ export const Login = () => {
 }
 
 export const Navbar = () => {
+
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const logout = () => {
+    dispatch(userReducer.logout())
+    history.push('/')
+    dispatch(notificationReducer.show({ message: `${user.name} logged out.`, style: 'success' }))
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
 
-      <a className="navbar-brand" href="/">
-        <img className="pr-2" width="32" src={require('./logo192.png')} alt="" />
-        <span>React Blogs</span>
-      </a>
+      <div className="container">
+        <NavLink className="navbar-brand" to="">
+          <img className="pr-2" width="32" src={logo192} alt="Logo" />
+          <span>React Blogs</span>
+        </NavLink>
 
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation-navbar">
-        <span className="navbar-toggler-icon"></span>
-      </button>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation-navbar">
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-      <div className="collapse navbar-collapse" id="navigation-navbar">
-        <ul className="navbar-nav mr-auto">
+        <div className="collapse navbar-collapse" id="navigation-navbar">
+          <ul className="navbar-nav mr-auto">
 
-          <li className="nav-item">
-            <NavLink activeClassName="active" className="nav-link" to="/">Blogs</NavLink>
-          </li>
+            <li className="nav-item">
+              <NavLink activeClassName="active" className="nav-link" to="/blogs">Blogs</NavLink>
+            </li>
 
-          <li className="nav-item">
-            <NavLink activeClassName="active" className="nav-link" to="/users">Users</NavLink>
-          </li>
+            <li className="nav-item">
+              <NavLink activeClassName="active" className="nav-link" to="/users">Users</NavLink>
+            </li>
 
-        </ul>
+          </ul>
+
+          <div className="navbar-nav">
+            <li className="nav-item">
+              <button className="btn btn-outline-info btn-block" type="button" onClick={() => logout()}>Logout</button>
+            </li>
+          </div>
+
+        </div>
       </div>
 
     </nav>
@@ -189,13 +212,8 @@ export const Navbar = () => {
 }
 
 export const Header = () => {
-  const user = useSelector(state => state.user)
-  const dispatch = useDispatch()
 
-  const logout = () => {
-    dispatch(userReducer.logout())
-    dispatch(show({ message: `${user.name} logged out.`, style: 'success' }))
-  }
+  const user = useSelector(state => state.user)
 
   if (!user) return null;
 
@@ -203,7 +221,7 @@ export const Header = () => {
     <div className="jumbotron jumbotron-fluid">
       <div className="container">
         <h1 className="display-4">Welcome <b>{user.name}</b>!</h1>
-        <button className="btn btn-outline-info float-right" type="button" onClick={() => logout()}>Logout</button>
+
       </div>
     </div>
   )
@@ -230,7 +248,6 @@ export const User = () => {
         <div className="card-header">
           <span className="font-weight-bold">Blogs:</span>
         </div>
-
 
         <div className="list-group list-group-flush">
           {!user.blogs.length && <p className="list-group-item">User hasn't added any blogs yet!</p>}
@@ -299,12 +316,12 @@ export const NewBlog = () => {
     setDidTryCreate(true)
     const { title, author } = blog;
     try {
-      await dispatch(blogsReducer.create(blog))
-      dispatch(show({ message: `A new blog '${title}' by ${author} added.`, style: 'success' }))
+      dispatch(blogsReducer.create(blog))
+      dispatch(notificationReducer.show({ message: `A new blog '${title}' by ${author} added.`, style: 'success' }))
       setIsCreating(false)
       setDidTryCreate(false)
     } catch (error) {
-      dispatch(show({ message: `${error.response.data.message}`, style: 'error' }))
+      dispatch(notificationReducer.show({ message: `${error.response.data.message}`, style: 'error' }))
     }
   }
 
@@ -364,8 +381,9 @@ export const Blogs = () => {
       </div>
       <div className="list-group-flush">
         {blogs.sort((b, span) => span.likes - b.likes).map(blog =>
-          <span className="list-group-item" key={blog.id}>
-            <Link to={`/blogs/${blog.id}`}>{blog.title} </Link> - {blog.author}
+          <span className="list-group-item d-flex justify-content-between align-items-center" key={blog.id}>
+            <span><Link className="blog-link" to={`/blogs/${blog.id}`}>{blog.title} </Link> - {blog.author}</span>
+            <span title="Likes" className="badge bg-success badge-pill text-white likes-badge">{blog.likes}</span>
           </span>
         )}
       </div>
@@ -388,21 +406,21 @@ export const Blog = () => {
 
   const like = blog => {
     dispatch(blogsReducer.like(blog))
-    dispatch(show({ message: `Liked blog '${title}' by ${author}.`, style: 'success' }))
+    dispatch(notificationReducer.show({ message: `Liked blog '${title}' by ${author}.`, style: 'success' }))
   }
 
   const canRemove = (blog, user) => {
     if (!user) return false
-    if (user.username !== blog.user.username) return false
+    if (user.username !== blog.user?.username) return false
     return true
   }
 
   const comment = async comment => {
     try {
-      await dispatch(blogsReducer.comment(blog, comment))
+      dispatch(blogsReducer.comment(blog, comment))
       commentInput.current.value = ''
     } catch (error) {
-      dispatch(show({ message: `${error.response.data.message}`, style: 'error' }))
+      dispatch(notificationReducer.show({ message: `${error.response.data.message}`, style: 'error' }))
     }
   }
 
@@ -413,27 +431,29 @@ export const Blog = () => {
           <h4>Blog <span className="text-muted">{`<${blog.id}>`}</span></h4>
         </div>
 
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item">
-            <small className="text-muted">Title</small>
-            <p className="">{title}</p>
-          </li>
-          <li className="list-group-item">
-            <small className="text-muted">Author</small>
-            <p>{author}</p>
-          </li>
-          <li className="list-group-item">
-            <small className="text-muted">Source</small>
-            <p><span href={url}>{url}</span></p>
-          </li>
-          <li className="list-group-item">
-            <small className="text-muted">Likes</small>
-            <p>{likes}</p>
-          </li>
-        </ul>
+        <div className="card-body p-0">
+          <ul className="list-group list-group-flush">
+            <li className="list-group-item">
+              <small className="text-muted">Title</small>
+              <p className="">{title}</p>
+            </li>
+            <li className="list-group-item">
+              <small className="text-muted">Author</small>
+              <p>{author}</p>
+            </li>
+            <li className="list-group-item">
+              <small className="text-muted">Source</small>
+              <p><span href={url}>{url}</span></p>
+            </li>
+            <li className="list-group-item">
+              <small className="text-muted">Likes</small>
+              <p><span title="Likes" className="badge bg-success badge-pill text-white likes-badge">{likes}</span></p>
+            </li>
+          </ul>
+        </div>
 
-        <div className="card-body">
-          <button className="btn btn-outline-success btn-block" onClick={() => like(blog)}>Like</button>
+        <div className="card-footer">
+          <button id="like-blog-button" className="btn btn-outline-success btn-block" onClick={() => like(blog)}>Like</button>
           {canRemove(blog, user) &&
             <RemoveBlog blog={blog}></RemoveBlog>}
         </div>
@@ -466,20 +486,20 @@ const RemoveBlog = ({ blog }) => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  const remove = async blog => {
+  const remove = blog => {
     const { title, author } = blog
 
     if (!window.confirm(`Do you want to remove '${title}' by ${author}?`))
       return
 
     try {
-      dispatch(show({ message: `Removed blog '${title}' by ${author}.`, style: 'success' }))
-      await dispatch(blogsReducer.remove(blog))
+      dispatch(notificationReducer.show({ message: `Removed blog '${title}' by ${author}.`, style: 'success' }))
+      dispatch(blogsReducer.remove(blog))
       history.push('/')
     } catch (error) {
-      dispatch(show({ message: `${error.response.data.message}`, style: 'error' }))
+      dispatch(notificationReducer.show({ message: `${error.response.data.message}`, style: 'error' }))
     }
   }
 
-  return <button className="btn btn-outline-danger btn-block" onClick={() => remove(blog)}>Remove</button>
+  return <button id="remove-blog-button" className="btn btn-outline-danger btn-block" onClick={() => remove(blog)}>Remove</button>
 }

@@ -1,5 +1,8 @@
 import axios from 'axios'
-const baseUrl = '/api/login'
+import { API } from '../constants';
+
+const topic = '/login'
+const url = API + topic;
 
 const getUser = () => {
   try {
@@ -16,7 +19,7 @@ const store = user => {
 }
 
 const login = async credentials => {
-  const user = (await axios.post(baseUrl, credentials)).data
+  const user = (await axios.post(url, credentials)).data
   store(user)
   return user;
 }

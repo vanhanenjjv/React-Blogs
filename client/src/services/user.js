@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { API } from '../constants';
 
-const baseUrl = '/api/users'
+const topic = '/users'
+const url = API + topic;
 
 export const getUsers = async () => {
-  return (await axios.get(baseUrl)).data
+  return (await axios.get(url)).data
 }
 
 export default { getUsers }

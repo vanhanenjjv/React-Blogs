@@ -1,5 +1,9 @@
 import axios from 'axios'
+import { API } from '../constants';
 import authService from './auth'
+
+const topic = '/blogs'
+const url = API + topic;
 
 const config = () => {
   return {
@@ -7,31 +11,30 @@ const config = () => {
   }
 }
 
-const baseUrl = '/api/blogs'
 
 export const getBlogs = async () => {
-  const blogs = (await axios.get(baseUrl)).data
+  const blogs = (await axios.get(url)).data
   return blogs
 }
 
 export const create = async blog => {
-  const createdBlog = (await axios.post(baseUrl, blog, config())).data
+  const createdBlog = (await axios.post(url, blog, config())).data
   return createdBlog
 }
 
 export const remove = async blog => {
-  await axios.delete(`${baseUrl}/${blog.id}`, config())
+  await axios.delete(`${url}/${blog.id}`, config())
   return blog
 }
 
 export const like = async blog => {
   blog.likes += 1
-  const likedBlog = (await axios.put(`${baseUrl}/${blog.id}`, blog)).data
+  const likedBlog = (await axios.put(`${url}/${blog.id}`, blog)).data
   return likedBlog
 }
 
 export const comment = async (blog, comment) => {
-  const commentedBlog = (await axios.post(`${baseUrl}/${blog.id}/comments`, { comment }, config())).data
+  const commentedBlog = (await axios.post(`${url}/${blog.id}/comments`, { comment }, config())).data
   return commentedBlog
 }
 
