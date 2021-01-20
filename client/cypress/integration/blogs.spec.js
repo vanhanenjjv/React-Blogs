@@ -94,7 +94,7 @@ describe('Blogs app', function () {
         cy.get('.blog-link').first().click()
       })
 
-      it('blog can be liked 😂👌', function () {
+      it('blog can be liked 👍', function () {
 
         cy.intercept('/api/blogs', []).as('getBlogs')
 
@@ -112,6 +112,33 @@ describe('Blogs app', function () {
       it('blog can be removed 🚯', function () {
         cy.get('#remove-blog-button').click()
         cy.get('.notification-success')
+      })
+
+      it('blog can be commented 🗨', function () {
+
+        cy.get('.blog-link').first().click()
+
+        const lit = 'This blog is very lit. 🔥😂👌'
+        const elm = 'We have hundreds of projects using the latest React, Angular, Vue, Elm, etc. frameworks. Cypress also works equally well on older server rendered pages or applications.'
+        const testing = 'Because Cypress is installed locally on your machine, it can additionally tap into the operating system itself for automation tasks. This makes performing tasks such as taking screenshots, recording videos, general file system operations and network operations possible.'
+        
+        cy.get('#comment-input').type(lit)
+        cy.get('#submit-comment-button').click()
+        cy.get('#comment-input').type(elm)
+        cy.get('#submit-comment-button').click()
+        cy.get('#comment-input').type(testing)
+        cy.get('#submit-comment-button').click()
+
+        cy.contains(lit)
+        cy.contains(elm)
+        cy.contains(testing)
+
+        cy.reload()
+
+        cy.contains(lit)
+        cy.contains(elm)
+        cy.contains(testing)
+
       })
 
     })

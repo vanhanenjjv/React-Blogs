@@ -471,8 +471,8 @@ export const Blog = () => {
         </div>
         <div className="card-footer">
           <form onSubmit={e => { e.preventDefault(); comment(commentInput.current.value) }} className="d-flex">
-            <input ref={commentInput} className="form-control mr-1" type="search" placeholder="Leave a comment." required />
-            <button className="btn btn-outline-secondary" type="submit">Submit</button>
+            <input id="comment-input" ref={commentInput} className="form-control mr-1" type="search" placeholder="Leave a comment." required />
+            <button id="submit-comment-button" className="btn btn-outline-secondary" type="submit">Submit</button>
           </form>
         </div>
       </div>
