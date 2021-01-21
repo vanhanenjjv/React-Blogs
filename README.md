@@ -1,5 +1,7 @@
-# React-Blogs
+# React-Blogs 
 Full stack web application built in https://fullstackopen.com concluding chapter 7.
+
+<a href="https://codeclimate.com/github/VanhanenJLA/React-Blogs/maintainability"><img src="https://api.codeclimate.com/v1/badges/871a24b5a1645f3f57ae/maintainability" /></a>
 
 ## Client served on GitHub Pages:
 https://vanhanenjla.github.io/React-Blogs/
