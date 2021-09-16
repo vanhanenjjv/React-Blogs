@@ -1,15 +1,26 @@
-const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
-mongoose.set('useFindAndModify', false)
-mongoose.set('useCreateIndex', true);
+import { Document, Schema, model, set } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
-const blogSchema = mongoose.Schema({
+set('useFindAndModify', false)
+set('useCreateIndex', true);
+
+interface Blog extends Document {
+  _id: string;
+  title: string;
+  author: string;
+  url: string;
+  likes: number;
+  __v: number;
+  user: string;
+}
+
+const blogSchema = new Schema<Blog>({
   title: { type: String, required: true },
   author: { type: String, required: true },
   url: { type: String, required: true, unique: true },
   likes: { type: Number, default: 0 },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   comments: [
@@ -26,5 +37,5 @@ blogSchema.set('toJSON', {
 })
 
 blogSchema.plugin(uniqueValidator)
-
-module.exports = mongoose.model('Blog', blogSchema)
+const Blog = model('Blog', blogSchema)
+export default Blog

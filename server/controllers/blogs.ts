@@ -1,14 +1,16 @@
 
 const router = require('express').Router()
-const Blog = require('./../models/blog')
-const User = require('./../models/user')
-const jwt = require('jsonwebtoken')
+import Blog from './../models/blog'
+import User from './../models/user'
+import jwt, { JwtPayload } from 'jsonwebtoken'
+import config from '../utils/config'
 
 const isAuthenticated = request => {
   if (!request.token)
     throw { name: 'AuthenticationError', message: 'Token missing.' }
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, config.SECRET) as JwtPayload
+
   if (!decodedToken.id)
     throw { name: 'AuthenticationError', message: 'Invalid token.' }
 
@@ -90,4 +92,4 @@ router.post('/:id/comments', async (request, response) => {
   response.status(200).json(commentedBlog)
 })
 
-module.exports = router
+export default router;
