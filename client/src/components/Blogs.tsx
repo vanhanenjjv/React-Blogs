@@ -8,7 +8,7 @@ import {
 
 export const Blogs = () => {
 
-  const blogs = useSelector(state => state.blogs)
+  const blogs = useSelector((state: any) => state.blogs)
 
   if (!blogs?.length) return <p>No blogs to display!</p>
   return (

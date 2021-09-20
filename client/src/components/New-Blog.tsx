@@ -6,7 +6,7 @@ import './App.css'
 
 export const NewBlog = () => {
 
-  const user = useSelector(state => state.user)
+  const user = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
   const [isCreating, setIsCreating] = useState(false)
   const [didTryCreate, setDidTryCreate] = useState(false)
@@ -44,7 +44,8 @@ export const NewBlog = () => {
         <form className={`needs-validation ${didTryCreate ? 'was-validated' : ''}`}>
           <div className="form-group">
             <label htmlFor="title-input">Title</label>
-            <input className="form-control" id="title-input" onChange={e => setNewBlog({ ...newBlog, title: e.target.value })} required placeholder="GUI Architectures" />
+            <input className="form-control"
+              id="title-input" onChange={e => setNewBlog({ ...newBlog, title: e.target.value })} required placeholder="GUI Architectures" />
           </div>
 
           <div className="form-group">

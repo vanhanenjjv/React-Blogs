@@ -63,5 +63,5 @@ export const comment = (blog, comment) => {
     dispatch({ type: 'COMMENT', data: commentedBlog })
   }
 }
-
-export default { reducer, initialize, create, remove, like, comment }
+const BlogsReducer = { reducer, initialize, create, remove, like, comment };
+export default BlogsReducer;

@@ -7,7 +7,7 @@ import {
 } from "react-router-dom"
 
 export const Users = () => {
-  const users = useSelector(state => state.users)
+  const users = useSelector((state: any) => state.users)
 
   if (!users)
     return <p>No users to display!</p>

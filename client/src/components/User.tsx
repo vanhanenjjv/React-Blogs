@@ -7,10 +7,14 @@ import {
   useParams,
 } from "react-router-dom"
 
+type UserParams = {
+  id: string;
+}
+
 export const User = () => {
 
-  const id = useParams().id
-  const users = useSelector(state => state.users)
+  const id = useParams<UserParams>().id
+  const users = useSelector((state: any) => state.users)
 
   if (!users) return null
   const user = users.find(u => u.id === id)

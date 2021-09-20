@@ -3,12 +3,12 @@ import authService from '../services/auth'
 import { useSelector, useDispatch } from 'react-redux'
 import notificationReducer from '../reducers/notification'
 import userReducer from '../reducers/user'
-import { logo512 } from '../constants'
+import { LOGOS } from '../constants'
 import './App.css'
 
 export const Login = () => {
 
-  const user = useSelector(state => state.user)
+  const user = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
 
   const [didTryLogin, setDidTryLogin] = useState(false)
@@ -35,7 +35,7 @@ export const Login = () => {
     <>
       <form onSubmit={e => { e.preventDefault(); login(credentials) }} className={`form-signin needs-validation ${didTryLogin ? 'was-validated' : ''}`} id="login-form" noValidate>
 
-        <img className="img-fluid" src={logo512} alt="Logo"></img>
+        <img className="img-fluid" src={LOGOS.logo512} alt="Logo"></img>
 
         <div className="form-group">
           <h2>React Blogs</h2>

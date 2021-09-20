@@ -6,7 +6,7 @@ import './App.css'
 
 export const Header = () => {
 
-  const user = useSelector(state => state.user)
+  const user = useSelector((state: any) => state.user)
 
   if (!user) return null;
 

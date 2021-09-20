@@ -2,7 +2,7 @@ import React, { } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import notificationReducer from '../reducers/notification'
 import userReducer from '../reducers/user'
-import { logo192 } from '../constants'
+import { LOGOS } from '../constants'
 import './App.css'
 
 import {
@@ -12,7 +12,7 @@ import {
 
 export const Navbar = () => {
 
-  const user = useSelector(state => state.user)
+  const user = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -27,7 +27,7 @@ export const Navbar = () => {
 
       <div className="container">
         <NavLink className="navbar-brand" to="">
-          <img className="pr-2" width="32" src={logo192} alt="Logo" />
+          <img className="pr-2" width="32" src={LOGOS.logo192} alt="Logo" />
           <span>React Blogs</span>
         </NavLink>
 

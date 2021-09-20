@@ -5,17 +5,21 @@
   "homepage": "https://vanhanenjla.github.io/React-Blogs/",
   "dependencies": {
     "@testing-library/user-event": "^7.2.1",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.9.1",
+    "@types/react": "^17.0.21",
+    "@types/react-dom": "^17.0.9",
     "axios": "^0.21.1",
     "proptypes": "^1.1.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^4.0.3",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.10"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "eslint": "eslint .",
-    "cypress:open": "cypress open",
+    "cypress": "cypress open",
     "cypress:run": "cypress run"
   },
   "eslintConfig": {
@@ -44,6 +48,8 @@
   "proxy": "http://localhost:3001",
   "devDependencies": {
     "@testing-library/react": "^9.5.0",
+    "@types/react-redux": "^7.1.18",
+    "@types/react-router-dom": "^5.1.9",
     "cypress": "^6.2.1",
     "eslint-plugin-cypress": "^2.11.1"
   }

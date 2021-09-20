@@ -35,7 +35,7 @@ export const App = () => {
       dispatch(userReducer.login(user))
   }, [dispatch])
 
-  const user = useSelector(state => state.user)
+  const user = useSelector((state: any) => state.user)
 
   if (!user) return (
     <>

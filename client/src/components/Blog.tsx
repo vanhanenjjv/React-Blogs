@@ -9,37 +9,60 @@ import {
   useParams,
 } from "react-router-dom"
 
+type BlogParams = {
+  id: string
+}
+
+type Blog = {
+  id: string
+  title: string
+  author: string
+  url: string
+  likes: number
+  comments: Array<any>
+}
+
 export const Blog = () => {
 
-  const id = useParams().id
-  const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.user)
+  const id = useParams<BlogParams>().id
+  const blogs: Array<Blog> = useSelector((state: any) => state.blogs)
+  const user = useSelector((state: any) => state.user)
   const dispatch = useDispatch()
-  const commentInput = useRef(null)
+  const commentInput = useRef<HTMLInputElement>(null)
   if (!blogs) return null
   const blog = blogs.find(blog => blog.id === id)
   if (!blog) return null
 
-  const { title, author, url, likes } = blog
+  const { title, author, url, likes }: Blog = blog
 
   const like = blog => {
     dispatch(blogsReducer.like(blog))
     dispatch(notificationReducer.show({ message: `Liked blog '${title}' by ${author}.`, style: 'success' }))
   }
 
-  const canRemove = (blog, user) => {
-    if (!user) return false
-    if (user.username !== blog.user?.username) return false
+  const canRemove = (blog, user): boolean => {
+    if (!user)
+      return false
+    if (user.username !== blog.user?.username)
+      return false
     return true
   }
 
   const comment = async comment => {
     try {
       dispatch(blogsReducer.comment(blog, comment))
-      commentInput.current.value = ''
+      if (commentInput && commentInput.current)
+        commentInput.current.value = ''
     } catch (error) {
-      dispatch(notificationReducer.show({ message: `${error.response.data.message}`, style: 'error' }))
+      // error.respones.data.message
+      dispatch(notificationReducer.show({ message: `${error}`, style: 'error' }))
     }
+  }
+
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    if (commentInput && commentInput.current)
+      comment(commentInput.current.value)
   }
 
   return (
@@ -61,7 +84,7 @@ export const Blog = () => {
             </li>
             <li className="list-group-item">
               <small className="text-muted">Source</small>
-              <p><span href={url}>{url}</span></p>
+              <p><a href={url}>{url}</a></p>
             </li>
             <li className="list-group-item">
               <small className="text-muted">Likes</small>
@@ -88,7 +111,7 @@ export const Blog = () => {
           }
         </div>
         <div className="card-footer">
-          <form onSubmit={e => { e.preventDefault(); comment(commentInput.current.value) }} className="d-flex">
+          <form onSubmit={e => { handleFormSubmit(e) }} className="d-flex">
             <input id="comment-input" ref={commentInput} className="form-control mr-1" type="search" placeholder="Leave a comment." required />
             <button id="submit-comment-button" className="btn btn-outline-secondary" type="submit">Submit</button>
           </form>

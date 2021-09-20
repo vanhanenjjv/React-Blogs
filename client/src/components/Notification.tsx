@@ -5,7 +5,7 @@ import './App.css'
 
 export const Notification = () => {
 
-  const notification = useSelector(state => state.notification)
+  const notification = useSelector((state: any) => state.notification)
 
   if (!notification) return null;
   const { style, message } = notification
