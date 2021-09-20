@@ -33,5 +33,5 @@ export const logout = () => {
   }
 }
 
-
-export default { reducer, login, logout }
+const userReducer = { reducer, login, logout }
+export default userReducer

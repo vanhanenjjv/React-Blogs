@@ -35,4 +35,5 @@ export const hide = () => {
   return { type: 'CLEAR_NOTIFICATION' }
 }
 
-export default { reducer, show, hide }
+const notificationReducer = { reducer, show, hide }
+export default notificationReducer;

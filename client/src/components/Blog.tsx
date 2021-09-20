@@ -8,21 +8,9 @@ import { RemoveBlog } from './Remove-Blog'
 import {
   useParams,
 } from "react-router-dom"
+import { Blog, BlogParams } from '../types'
 
-type BlogParams = {
-  id: string
-}
-
-type Blog = {
-  id: string
-  title: string
-  author: string
-  url: string
-  likes: number
-  comments: Array<any>
-}
-
-export const Blog = () => {
+export const BlogComponent = () => {
 
   const id = useParams<BlogParams>().id
   const blogs: Array<Blog> = useSelector((state: any) => state.blogs)

@@ -28,4 +28,5 @@ const logout = () => {
   window.localStorage.clear()
 }
 
-export default { login, logout, getUser, getToken }
+const authService = { login, logout, getUser, getToken }
+export default authService

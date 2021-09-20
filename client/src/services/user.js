@@ -8,4 +8,5 @@ export const getUsers = async () => {
   return (await axios.get(url)).data
 }
 
-export default { getUsers }
+const userService = { getUsers }
+export default userService

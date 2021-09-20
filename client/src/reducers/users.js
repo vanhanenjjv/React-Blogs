@@ -22,5 +22,5 @@ export const initialize = () => {
 }
 
 
-
-export default { reducer, initialize }
+const usersReducer = { reducer, initialize }
+export default usersReducer

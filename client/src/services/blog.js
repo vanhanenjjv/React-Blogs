@@ -38,4 +38,5 @@ export const comment = async (blog, comment) => {
   return commentedBlog
 }
 
-export default { getBlogs, create, remove, like, comment }
+const blogService = { getBlogs, create, remove, like, comment }
+export default blogService

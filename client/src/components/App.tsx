@@ -19,7 +19,7 @@ import { Login } from './Login'
 import { User } from './User'
 import { Users } from './Users'
 import { Blogs } from './Blogs'
-import { Blog } from './Blog'
+import { BlogComponent as Blog } from './Blog'
 import { NewBlog } from './New-Blog'
 import { Notification } from './Notification'
 
