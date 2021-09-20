@@ -6,8 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production ts-node index.ts",
     "dev": "cross-env NODE_ENV=development ts-node index.ts",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=test ts-node index.ts"
+    "jest": "cross-env NODE_ENV=test jest --verbose --runInBand",
+    "test": "cross-env NODE_ENV=test ts-node index.ts"
   },
   "author": "VanhanenJLA",
   "license": "ISC",
@@ -22,7 +22,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
     "mongoose-unique-validator": "^2.0.3",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -33,8 +34,7 @@
     "@types/node": "^16.9.1",
     "eslint-plugin-react": "^7.20.0",
     "jest": "^26.0.1",
-    "supertest": "^4.0.2",
-    "typescript": "^4.4.3"
+    "supertest": "^4.0.2"
   },
   "jest": {
     "testEnvironment": "node"
