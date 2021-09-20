@@ -2,8 +2,5 @@
   "scripts": {
     "heroku-prebuild": "cd server && npm install",
     "start": "cd server && npm start"
-  },
-  "dependencies": {
-    "@types/react-router-dom": "^5.1.9"
   }
 }
