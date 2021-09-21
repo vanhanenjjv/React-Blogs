@@ -1,15 +1,16 @@
+import { Router } from 'express'
+import { Blog } from '../models/blog'
+import { User } from '../models/user'
+import jwt from 'jsonwebtoken'
 
-const router = require('express').Router()
-const Blog = require('./../models/blog')
-const User = require('./../models/user')
-const jwt = require('jsonwebtoken')
+const router = Router()
 
 const isAuthenticated = request => {
   if (!request.token)
     throw { name: 'AuthenticationError', message: 'Token missing.' }
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET as string)
+  if (!decodedToken['id'])
     throw { name: 'AuthenticationError', message: 'Invalid token.' }
 
   return decodedToken
@@ -26,7 +27,7 @@ router.post('/', async (request, response) => {
 
   const decodedToken = isAuthenticated(request)
 
-  const user = await User.findById(decodedToken.id)
+  const user = await User.findById(decodedToken['id'])
 
   const blog = new Blog(request.body)
   blog.user = user
@@ -42,7 +43,7 @@ router.delete('/:id', async (request, response) => {
 
   const decodedToken = isAuthenticated(request)
 
-  const user = await User.findById(decodedToken.id)
+  const user = await User.findById(decodedToken['id'])
   const blog = await Blog.findById(request.params.id)
 
   if (user.id.toString() !== blog.user.toString())
@@ -90,4 +91,4 @@ router.post('/:id/comments', async (request, response) => {
   response.status(200).json(commentedBlog)
 })
 
-module.exports = router
+export default router

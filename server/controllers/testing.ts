@@ -1,7 +1,9 @@
-const router = require('express').Router()
-const Blog = require('../models/blog')
-const User = require('../models/user')
-const bcrypt = require('bcrypt')
+import { Router } from 'express'
+import { Blog } from '../models/blog'
+import { User } from '../models/user'
+import bcrypt from 'bcrypt'
+
+const router = Router()
 
 const dummyUser = { username: 'dummy', name: 'Tyhäm Tester', password: 'salasana' }
 
@@ -23,8 +25,12 @@ router.post('/init-database', async (request, response) => {
     passwordHash,
   }).save()
 
-  const _blogs = blogs.map(b => { b.user = dummy.id; return b; })
+  const _blogs: Blog[] = blogs
+    .map(blog => ({ ...blog, user: dummy.id }))
+    .map(blog => ({ ...blog, comments: [] }))
+
   await Blog.insertMany(_blogs)
+
   dummy.blogs = _blogs
   await dummy.save()
   response.status(204).end()
@@ -36,4 +42,4 @@ router.post('/drop-database', async (request, response) => {
   response.status(204).end()
 })
 
-module.exports = router
+export default router

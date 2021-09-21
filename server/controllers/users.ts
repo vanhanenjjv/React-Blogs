@@ -1,6 +1,8 @@
-const bcrypt = require('bcrypt')
-const usersRouter = require('express').Router()
-const User = require('../models/user')
+import bcrypt from 'bcrypt'
+import { Router } from 'express'
+import { User } from '../models/user'
+
+const usersRouter = Router()
 
 usersRouter.get('/', async (request, response) => {
   const users = await User
@@ -28,4 +30,4 @@ usersRouter.post('/', async (request, response) => {
   response.json(await user.save())
 })
 
-module.exports = usersRouter
+export default usersRouter

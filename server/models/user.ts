@@ -1,8 +1,17 @@
-const mongoose = require('mongoose')
-const uniqueValidator = require('mongoose-unique-validator')
+import mongoose, { Schema, Document } from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
+import { Blog } from './blog'
+
 mongoose.set('useCreateIndex', true);
 
-const userSchema = mongoose.Schema({
+export interface User {
+  username: string
+  name: string
+  passwordHash: string
+  blogs: Array<string | Blog>
+}
+
+const userSchema = new Schema<User & Document>({
   username: {
     type: String,
     unique: true,
@@ -36,6 +45,4 @@ userSchema.set('toJSON', {
 
 userSchema.plugin(uniqueValidator)
 
-const User = mongoose.model('User', userSchema)
-
-module.exports = User
+export const User = mongoose.model<User & Document>('User', userSchema)

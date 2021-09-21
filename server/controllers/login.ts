@@ -1,7 +1,9 @@
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
-const loginRouter = require('express').Router()
-const User = require('../models/user')
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+import { Router } from 'express'
+import { User } from '../models/user'
+
+const loginRouter = Router()
 
 loginRouter.post('/', async (request, response) => {
   const { username, password } = request.body;
@@ -26,11 +28,11 @@ loginRouter.post('/', async (request, response) => {
     id: user._id,
   }
 
-  const token = jwt.sign(userForToken, process.env.SECRET)
+  const token = jwt.sign(userForToken, process.env.SECRET as string)
 
   response
     .status(200)
     .send({ token, username: user.username, name: user.name })
 })
 
-module.exports = loginRouter
+export default loginRouter
